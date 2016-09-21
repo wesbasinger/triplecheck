@@ -92,7 +92,8 @@ var App = React.createClass({
     return {
       score: 0,
       triples: [],
-      curr: ""
+      curr: "",
+      maskIndex: null
     }
   },
 
@@ -101,7 +102,7 @@ var App = React.createClass({
   },
 
   componentDidMount: function() {
-    this.setState({curr: this.state.triples.shift()})
+    this.setState({curr: this.state.triples.shift(), maskIndex: this.rand()})
   },
 
   rand: function() {
@@ -109,20 +110,18 @@ var App = React.createClass({
   },
 
   handleCheck: function(missingValue) {
-    this.state.curr.forEach(function(val) {
-      if (val == missingValue) {
-        console.log("correct!");
-      } else {
-        console.log("wrong!");
-      }
-    })
+    if (Number(missingValue) === this.state.curr[this.state.maskIndex]) {
+      console.log("Got it!");
+    } else {
+      console.log("Nope, try again!");
+    }
   },
 
   render: function() {
     return(
       <div>
         <Points score={this.state.score}/>
-        <Triple curr={this.state.curr} maskIndex={this.rand()}/>
+        <Triple curr={this.state.curr} maskIndex={this.state.maskIndex}/>
         <InputBar onCheck={this.handleCheck}/>
       </div>
     )
