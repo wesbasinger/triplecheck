@@ -61,10 +61,25 @@ var Triple = React.createClass({
 });
 
 var InputBar = React.createClass({
+
+  getInitialState: function() {
+    return {
+      userInput: ""
+    }
+  },
+
+  changeHandler: function(e) {
+    this.setState({userInput: e.target.value})
+  },
+
+  handleClick: function(e) {
+    this.props.onCheck(this.state.userInput);
+  },
+
   render: function() {
     return(
       <div>
-        <input type="number" required="yes" value="" onChange={this.changeHandler} />
+        <input type="number" required="yes" value={this.state.userInput} onChange={this.changeHandler} />
         <button onClick={this.handleClick}>Check</button>
       </div>
     )
@@ -93,12 +108,22 @@ var App = React.createClass({
     return Math.floor(Math.random() * (2));
   },
 
+  handleCheck: function(missingValue) {
+    this.state.curr.forEach(function(val) {
+      if (val == missingValue) {
+        console.log("correct!");
+      } else {
+        console.log("wrong!");
+      }
+    })
+  },
+
   render: function() {
     return(
       <div>
         <Points score={this.state.score}/>
         <Triple curr={this.state.curr} maskIndex={this.rand()}/>
-        <InputBar />
+        <InputBar onCheck={this.handleCheck}/>
       </div>
     )
   }
