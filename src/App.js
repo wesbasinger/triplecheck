@@ -111,9 +111,10 @@ var App = React.createClass({
 
   handleCheck: function(missingValue) {
     if (Number(missingValue) === this.state.curr[this.state.maskIndex]) {
-      console.log("Got it!");
+      var currPoints = this.state.score;
+      this.setState({score: currPoints + 1, curr: this.state.triples.shift(), maskIndex: this.rand()});
     } else {
-      console.log("Nope, try again!");
+      this.setState({curr: this.state.triples.shift()});
     }
   },
 
